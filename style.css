@@ -1,0 +1,20 @@
+.main{
+
+    text-align: center;
+}
+.butor{
+    width: 200;
+    height: 75;
+    font-size: 50;
+    background-color: #000000;
+    color: white;
+}
+body {
+	background: rgb(255, 255, 255);
+	background-repeat: repeat;
+	background-position: center;
+	font-family: "Oswald", serif;
+	font-optical-sizing: auto;
+	font-weight: 200;
+	font-style: normal;
+}
