@@ -1,5 +1,5 @@
 .main{
-
+    font-size: 50;
     text-align: center;
 }
 .butor{
@@ -17,4 +17,32 @@ body {
 	font-optical-sizing: auto;
 	font-weight: 200;
 	font-style: normal;
+}
+.lisone{
+	background-color: rgb(220, 130, 130);
+	padding: 20 20;
+}
+.lis1{
+	padding: 0 15;
+	background-color: rgb(200, 60, 60);
+	color: white;
+}
+.objectHol{
+	background-color: white;
+	padding: 10 10;
+	text-align: center;
+	font-size: 15;
+	border: 1px solid gray;
+	border-radius: 10px;
+	border-spacing: 10px;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.holod{
+	display: flex;
+	width: 80%;
+	margin: 0 auto;
+	flex-wrap: wrap;
 }
