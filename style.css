@@ -1,48 +1,19 @@
-.main{
-    font-size: 50;
-    text-align: center;
-}
-.butor{
-    width: 200;
-    height: 75;
-    font-size: 50;
-    background-color: #000000;
-    color: white;
-}
 body {
-	background: rgb(255, 255, 255);
-	background-repeat: repeat;
-	background-position: center;
-	font-family: "Oswald", serif;
-	font-optical-sizing: auto;
-	font-weight: 200;
-	font-style: normal;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
 }
-.lisone{
-	background-color: rgb(220, 130, 130);
-	padding: 20 20;
+
+canvas {
+    border: 1px solid #000;
 }
-.lis1{
-	padding: 0 15;
-	background-color: rgb(200, 60, 60);
-	color: white;
-}
-.objectHol{
-	background-color: white;
-	padding: 10 10;
-	text-align: center;
-	font-size: 15;
-	border: 1px solid gray;
-	border-radius: 10px;
-	border-spacing: 10px;
-	margin-left: 10px;
-	margin-right: 10px;
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
-.holod{
-	display: flex;
-	width: 80%;
-	margin: 0 auto;
-	flex-wrap: wrap;
+
+.cube {
+    background-color: red;
+    width: 40px;
+    height: 40px;
+    position: absolute;
 }

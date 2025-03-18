@@ -1,16 +1,119 @@
-// Массив с фразами
-const phrases = [
-    "Ac", "Ag", "Al", "Am", "Ar", "As", "At", "Au", "B", "Ba", "Be", "Bh", "Bi", "Bk", "Br", "C", "Ca", "Cd", "Ce", "Cf", "Cl", "Cm", "Cn", "Co", "Cr", "Cs", "Cu", "Db", "Ds", "Dy", "Er", "Es", "Eu", "F", "Fe", "Fl", "Fm", "Fr", "Ga", "Gd", "Ge", "H", "He", "Hf", "Hg", "Ho", "Hs", "I", "In", "Ir", "K", "Kr", "La", "Li", "Lr", "Lu", "Lv", "Mc", "Md", "Mg", "Mn", "Mo", "Mt", "N", "Na", "Nb", "Nd", "Ne", "Nh", "Ni", "No", "Np", "O", "Og", "Os", "P", "Pa", "Pb", "Pd", "Pm", "Po", "Pr", "Pt", "Pu", "Ra", "Rb", "Re", "Rf", "Rg", "Rh", "Rn", "Ru", "S", "Sb", "Sc", "Se", "Sg", "Si", "Sm", "Sn", "Sr", "Ta", "Tb", "Tc", "Te", "Th", "Ti", "Tl", "Tm", "Ts", "U", "V", "W", "Xe", "Y", "Yb", "Zn", "Zr"
-];
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
 
-document.getElementById('ans').onclick = getRandomPhrase;
+const cubeSize = 40;
+const boxes = [];
+const walls = []; 
+let score = 0;
+const boxCount = 5;
+const wallCount = 5;
+let cubeX = 0;
+let cubeY = 0;
 
-function getRandomPhrase() {
-    var pass =''
-    const randomIndex = Math.floor(Math.random() * phrases.length);
-    pass = phrases[randomIndex];
-    document.getElementById('out').innerHTML='<button type="button" class="butor" id="ans">'+pass+'</button>';
-    const fandomIndex = Math.floor(Math.random() * phrases.length);
-    pass = phrases[fandomIndex];
-    document.getElementById('out2').innerHTML='<button type="button" class="butor" id="ans">'+pass+'</button>';
+const scoreDisplay = document.createElement('div');
+scoreDisplay.style.position = 'absolute';
+scoreDisplay.style.top = '10px';
+scoreDisplay.style.left = '10px';
+scoreDisplay.style.fontSize = '20px';
+document.body.appendChild(scoreDisplay);
+
+function spawnBoxes() {
+    for (let i = 0; i < boxCount; i++) {
+        const boxX = Math.floor(Math.random() * (canvas.width / cubeSize)) * cubeSize;
+        const boxY = Math.floor(Math.random() * (canvas.height / cubeSize)) * cubeSize;
+        boxes.push({ x: boxX, y: boxY });
+    }
 }
+
+function spawnWalls() {
+    for (let i = 0; i < wallCount; i++) {
+        const boxX = Math.floor(Math.random() * (canvas.width / cubeSize)) * cubeSize;
+        const boxY = Math.floor(Math.random() * (canvas.height / cubeSize)) * cubeSize;
+        walls.push({ x: boxX, y: boxY });
+    }
+}
+
+function drawBoxes() {
+    ctx.fillStyle = 'blue';
+    boxes.forEach(box => {
+        ctx.fillRect(box.x, box.y, cubeSize, cubeSize);
+    });
+}
+
+function drawWalls() {
+    ctx.fillStyle = 'black';
+    walls.forEach(wall => {
+        ctx.fillRect(wall.x, wall.y, cubeSize, cubeSize);
+    });
+}
+
+function drawCube() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawWalls(); 
+    drawBoxes();
+    ctx.fillStyle = 'red';
+    ctx.fillRect(cubeX, cubeY, cubeSize, cubeSize);
+    scoreDisplay.innerText = `Score: ${score}`;
+}
+
+function isTouching(box) {
+    return (
+        cubeX < box.x + cubeSize &&
+        cubeX + cubeSize > box.x &&
+        cubeY < box.y + cubeSize &&
+        cubeY + cubeSize > box.y
+    );
+}
+
+function isCollidingWithWall() {
+    return walls.some(wall => (
+        cubeX < wall.x + cubeSize &&
+        cubeX + cubeSize > wall.x &&
+        cubeY < wall.y + cubeSize &&
+        cubeY + cubeSize > wall.y
+    ));
+}
+
+function moveCube(event) {
+    boxes.forEach((box, index) => {
+        if (isTouching(box)) {
+            score++;
+            boxes.splice(index, 1); 
+        }
+    });
+
+    if (score === boxCount) {
+        window.location.reload();
+    }
+
+    const previousX = cubeX;
+    const previousY = cubeY;
+
+    switch (event.key) {
+        case 'ArrowUp':
+            if (cubeY - cubeSize >= 0) cubeY -= cubeSize;
+            break;
+        case 'ArrowDown':
+            if (cubeY + cubeSize < canvas.height) cubeY += cubeSize;
+            break;
+        case 'ArrowLeft':
+            if (cubeX - cubeSize >= 0) cubeX -= cubeSize;
+            break;
+        case 'ArrowRight':
+            if (cubeX + cubeSize < canvas.width) cubeX += cubeSize;
+            break;
+    }
+
+
+    if (isCollidingWithWall()) {
+        cubeX = previousX; 
+        cubeY = previousY; 
+    }
+
+    drawCube();
+}
+
+document.addEventListener('keydown', moveCube);
+spawnBoxes();
+spawnWalls(); 
+drawCube();
